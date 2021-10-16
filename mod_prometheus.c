@@ -946,9 +946,13 @@ MODRET prom_log_list(cmd_rec *cmd) {
     return PR_DECLINED(cmd);
   }
 
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
+
   metric_name = "directory_list";
   prom_cmd_incr_type(cmd, metric_name, NULL, PROM_METRIC_TYPE_COUNTER);
   prom_cmd_decr(cmd, metric_name, NULL);
+
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
   return PR_DECLINED(cmd);
 }
 
@@ -957,9 +961,13 @@ MODRET prom_err_list(cmd_rec *cmd) {
     return PR_DECLINED(cmd);
   }
 
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
+
   prom_cmd_incr_type(cmd, "directory_list_error", NULL,
     PROM_METRIC_TYPE_COUNTER);
   prom_cmd_decr(cmd, "directory_list", NULL);
+
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
   return PR_DECLINED(cmd);
 }
 
@@ -1010,6 +1018,8 @@ MODRET prom_log_pass(cmd_rec *cmd) {
     return PR_DECLINED(cmd);
   }
 
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
+
   /* Easiest way for us to check for anonymous logins is here; the <Anonymous>
    * auth flow does not use the "mod_auth.authentication-code" event.
    */
@@ -1026,6 +1036,8 @@ MODRET prom_log_pass(cmd_rec *cmd) {
   pr_gettimeofday_millis(&now_ms);
   prom_cmd_observe(cmd, metric_name,
     (double) ((now_ms - prometheus_connected_ms) / 1000), labels);
+
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
   return PR_DECLINED(cmd);
 }
 
@@ -1063,11 +1075,15 @@ MODRET prom_log_retr(cmd_rec *cmd) {
     return PR_DECLINED(cmd);
   }
 
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
+
   metric_name = "file_download";
   labels = prom_get_labels(cmd->tmp_pool);
   prom_cmd_incr_type(cmd, metric_name, labels, PROM_METRIC_TYPE_COUNTER);
   prom_cmd_decr(cmd, metric_name, labels);
   prom_cmd_observe(cmd, metric_name, session.xfer.total_bytes, labels);
+
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
   return PR_DECLINED(cmd);
 }
 
@@ -1076,9 +1092,13 @@ MODRET prom_err_retr(cmd_rec *cmd) {
     return PR_DECLINED(cmd);
   }
 
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
+
   prom_cmd_incr_type(cmd, "file_download_error", NULL,
     PROM_METRIC_TYPE_COUNTER);
   prom_cmd_decr(cmd, "file_download", NULL);
+
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
   return PR_DECLINED(cmd);
 }
 
@@ -1099,11 +1119,15 @@ MODRET prom_log_stor(cmd_rec *cmd) {
     return PR_DECLINED(cmd);
   }
 
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
+
   metric_name = "file_upload";
   labels = prom_get_labels(cmd->tmp_pool);
   prom_cmd_incr_type(cmd, metric_name, labels, PROM_METRIC_TYPE_COUNTER);
   prom_cmd_decr(cmd, metric_name, labels);
   prom_cmd_observe(cmd, metric_name, session.xfer.total_bytes, labels);
+
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
   return PR_DECLINED(cmd);
 }
 
@@ -1112,9 +1136,13 @@ MODRET prom_err_stor(cmd_rec *cmd) {
     return PR_DECLINED(cmd);
   }
 
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
+
   prom_cmd_incr_type(cmd, "file_upload_error", NULL,
     PROM_METRIC_TYPE_COUNTER);
   prom_cmd_decr(cmd, "file_upload", NULL);
+
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
   return PR_DECLINED(cmd);
 }
 
@@ -1125,6 +1153,8 @@ MODRET prom_log_auth(cmd_rec *cmd) {
   if (prometheus_engine == FALSE) {
     return PR_DECLINED(cmd);
   }
+
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
 
   /* Note: we are not currently properly incrementing
    * session{protocol="ftps"} for FTPS connections accepted using the
@@ -1162,6 +1192,7 @@ MODRET prom_log_auth(cmd_rec *cmd) {
       (char *) cmd->argv[0], metric_name);
   }
 
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
   return PR_DECLINED(cmd);
 }
 
@@ -1236,6 +1267,8 @@ static void prom_exit_ev(const void *event_data, void *user_data) {
     return;
   }
 
+  prom_db_begin_txn(prometheus_pool, prometheus_dbh, NULL);
+
   switch (session.disconnect_reason) {
     case PR_SESS_DISCONNECT_BANNED:
     case PR_SESS_DISCONNECT_CONFIG_ACL:
@@ -1279,6 +1312,8 @@ static void prom_exit_ev(const void *event_data, void *user_data) {
       break;
     }
   }
+
+  prom_db_commit_txn(prometheus_pool, prometheus_dbh, NULL);
 
   prom_http_free();
 

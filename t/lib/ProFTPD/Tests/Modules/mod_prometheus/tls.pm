@@ -93,8 +93,8 @@ sub prom_scrape_metric_handshake_error_tls_ctrl {
   my $table_dir = File::Spec->rel2abs("$tmpdir/var/prometheus");
   my $exporter_port = ProFTPD::TestSuite::Utils::get_high_numbered_port();
 
-  my $cert_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/tests/t/etc/modules/mod_tls/server-cert.pem");
-  my $ca_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/tests/t/etc/modules/mod_tls/ca-cert.pem");
+  my $cert_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/t/etc/modules/mod_tls/server-cert.pem");
+  my $ca_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/t/etc/modules/mod_tls/ca-cert.pem");
 
   my $config = {
     PidFile => $setup->{pid_file},
@@ -238,8 +238,8 @@ sub prom_scrape_metric_handshake_error_tls_data {
   my $table_dir = File::Spec->rel2abs("$tmpdir/var/prometheus");
   my $exporter_port = ProFTPD::TestSuite::Utils::get_high_numbered_port();
 
-  my $cert_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/tests/t/etc/modules/mod_tls/server-cert.pem");
-  my $ca_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/tests/t/etc/modules/mod_tls/ca-cert.pem");
+  my $cert_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/t/etc/modules/mod_tls/server-cert.pem");
+  my $ca_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/t/etc/modules/mod_tls/ca-cert.pem");
 
   my $config = {
     PidFile => $setup->{pid_file},
@@ -418,8 +418,8 @@ sub prom_scrape_metric_tls_protocol {
   my $table_dir = File::Spec->rel2abs("$tmpdir/var/prometheus");
   my $exporter_port = ProFTPD::TestSuite::Utils::get_high_numbered_port();
 
-  my $cert_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/tests/t/etc/modules/mod_tls/server-cert.pem");
-  my $ca_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/tests/t/etc/modules/mod_tls/ca-cert.pem");
+  my $cert_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/t/etc/modules/mod_tls/server-cert.pem");
+  my $ca_file = File::Spec->rel2abs("$ENV{PROFTPD_TEST_DIR}/t/etc/modules/mod_tls/ca-cert.pem");
 
   my $config = {
     PidFile => $setup->{pid_file},

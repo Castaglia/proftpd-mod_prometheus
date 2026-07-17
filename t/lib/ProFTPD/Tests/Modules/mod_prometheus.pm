@@ -345,7 +345,7 @@ sub prom_start_existing_dirs {
     $ex = $@;
   }
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_unacceptable_method {
@@ -405,7 +405,7 @@ sub prom_scrape_unacceptable_method {
   defined(my $pid = fork()) or die("Can't fork: $!");
   if ($pid) {
     eval {
-      # Allow server to start up
+      # Allow for server startup
       sleep(2);
 
       my $ua = LWP::UserAgent->new();
@@ -455,7 +455,7 @@ sub prom_scrape_unacceptable_method {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_bad_uri {
@@ -565,7 +565,7 @@ sub prom_scrape_bad_uri {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_base_uri {
@@ -675,7 +675,7 @@ sub prom_scrape_base_uri {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metrics_uri {
@@ -786,7 +786,7 @@ sub prom_scrape_metrics_uri {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metrics_uri_with_gzip {
@@ -911,7 +911,7 @@ sub prom_scrape_metrics_uri_with_gzip {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metrics_uri_with_basic_auth_success {
@@ -1028,7 +1028,7 @@ sub prom_scrape_metrics_uri_with_basic_auth_success {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metrics_uri_with_basic_auth_from_env {
@@ -1148,7 +1148,7 @@ sub prom_scrape_metrics_uri_with_basic_auth_from_env {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metrics_uri_with_basic_auth_missing_credentials {
@@ -1263,7 +1263,7 @@ sub prom_scrape_metrics_uri_with_basic_auth_missing_credentials {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metrics_uri_with_basic_auth_wrong_username {
@@ -1380,7 +1380,7 @@ sub prom_scrape_metrics_uri_with_basic_auth_wrong_username {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metrics_uri_with_basic_auth_wrong_password {
@@ -1497,7 +1497,7 @@ sub prom_scrape_metrics_uri_with_basic_auth_wrong_password {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_build_info {
@@ -1620,7 +1620,7 @@ sub prom_scrape_metric_build_info {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_startup_time {
@@ -1743,7 +1743,7 @@ sub prom_scrape_metric_startup_time {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_connection {
@@ -1919,7 +1919,7 @@ sub prom_scrape_metric_connection {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_connection_refused {
@@ -2053,7 +2053,7 @@ sub prom_scrape_metric_connection_refused {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_log_message {
@@ -2191,7 +2191,7 @@ sub prom_scrape_metric_log_message {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_auth_ok {
@@ -2318,7 +2318,7 @@ sub prom_scrape_metric_auth_ok {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_auth_anon_ok {
@@ -2464,7 +2464,7 @@ sub prom_scrape_metric_auth_anon_ok {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_auth_error_unknown_user {
@@ -2594,7 +2594,7 @@ sub prom_scrape_metric_auth_error_unknown_user {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_auth_error_bad_password {
@@ -2724,7 +2724,7 @@ sub prom_scrape_metric_auth_error_bad_password {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_auth_error_incomplete {
@@ -2854,7 +2854,7 @@ sub prom_scrape_metric_auth_error_incomplete {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_directory_list {
@@ -3032,7 +3032,7 @@ sub prom_scrape_metric_directory_list {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_directory_list_error {
@@ -3175,7 +3175,7 @@ sub prom_scrape_metric_directory_list_error {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_file_download {
@@ -3362,7 +3362,7 @@ sub prom_scrape_metric_file_download {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_file_download_error {
@@ -3496,7 +3496,7 @@ sub prom_scrape_metric_file_download_error {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_file_upload {
@@ -3685,7 +3685,7 @@ sub prom_scrape_metric_file_upload {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_file_upload_error {
@@ -3820,7 +3820,7 @@ sub prom_scrape_metric_file_upload_error {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_succeeded {
@@ -3995,7 +3995,7 @@ sub prom_scrape_metric_login_succeeded {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_multiple_times {
@@ -4141,7 +4141,7 @@ sub prom_scrape_metric_login_multiple_times {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_user_quit {
@@ -4286,7 +4286,7 @@ sub prom_scrape_metric_login_user_quit {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_user_multiple_times {
@@ -4432,7 +4432,7 @@ sub prom_scrape_metric_login_user_multiple_times {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_pass_multiple_times {
@@ -4584,7 +4584,7 @@ sub prom_scrape_metric_login_pass_multiple_times {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_in_progress {
@@ -4729,7 +4729,7 @@ sub prom_scrape_metric_login_in_progress {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_error_bad_user {
@@ -4856,7 +4856,7 @@ sub prom_scrape_metric_login_error_bad_user {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_error_bad_password {
@@ -4983,7 +4983,7 @@ sub prom_scrape_metric_login_error_bad_password {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_error_user_bad_pass_good_pass {
@@ -5113,7 +5113,7 @@ sub prom_scrape_metric_login_error_user_bad_pass_good_pass {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_error_pass_multiple_times {
@@ -5242,7 +5242,7 @@ sub prom_scrape_metric_login_error_pass_multiple_times {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_login_error_denied_acl {
@@ -5378,7 +5378,7 @@ sub prom_scrape_metric_login_error_denied_acl {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_timeout_idle {
@@ -5518,7 +5518,7 @@ sub prom_scrape_metric_timeout_idle {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_timeout_login {
@@ -5655,7 +5655,7 @@ sub prom_scrape_metric_timeout_login {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_timeout_notransfer {
@@ -5798,7 +5798,7 @@ sub prom_scrape_metric_timeout_notransfer {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_timeout_session {
@@ -5941,7 +5941,7 @@ sub prom_scrape_metric_timeout_session {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_scrape_metric_timeout_stalled {
@@ -6100,7 +6100,7 @@ sub prom_scrape_metric_timeout_stalled {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 sub prom_config_exporter_addr {
@@ -6210,7 +6210,7 @@ sub prom_config_exporter_addr {
   server_stop($setup->{pid_file});
   $self->assert_child_ok($pid);
 
-  test_cleanup($setup->{log_file}, $ex);
+  test_cleanup($setup, $ex);
 }
 
 1;

@@ -1,6 +1,6 @@
 /*
  * ProFTPD - mod_prometheus database implementation
- * Copyright (c) 2021-2023 TJ Saunders
+ * Copyright (c) 2021-2026 TJ Saunders
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,8 +13,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA.
+ * along with this program; if not, see <https://www.gnu.org/licenses/>.
  *
  * As a special exemption, TJ Saunders and other respective copyright holders
  * give permission to link this program with OpenSSL, and distribute the
@@ -140,7 +139,7 @@ static int db_trace2(unsigned int trace_type, void *user_data, void *ptr,
     case SQLITE_TRACE_PROFILE: {
       sqlite3_stmt *pstmt;
       int64_t ns = 0;
-      const char *expanded_sql = NULL;
+      char *expanded_sql = NULL;
 
       pstmt = ptr;
       ns = *((int64_t *) ptr_data);
@@ -157,12 +156,15 @@ static int db_trace2(unsigned int trace_type, void *user_data, void *ptr,
           expanded_sql, (unsigned long) ns);
       }
 
+      if (expanded_sql != NULL) {
+        sqlite3_free(expanded_sql);
+      }
       break;
     }
 
     case SQLITE_TRACE_ROW: {
       sqlite3_stmt *pstmt;
-      const char *expanded_sql = NULL;
+      char *expanded_sql = NULL;
 
       pstmt = ptr;
       expanded_sql = sqlite3_expanded_sql(pstmt);
@@ -177,6 +179,9 @@ static int db_trace2(unsigned int trace_type, void *user_data, void *ptr,
           schema_name, expanded_sql);
       }
 
+      if (expanded_sql != NULL) {
+        sqlite3_free(expanded_sql);
+      }
       break;
     }
 
